@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <h1>Dashboard</h1>
+    <h2>Welcome, {{ current_user.name }}!</h2>
+
+    <h3>Upcoming Appointments</h3>
+    {% if appointments %}
+        <ul>
+            {% for appointment in appointments %}
+                <li>{{ appointment.date_time }} with {{ appointment.provider.name }} for {{ appointment.service.name }}</li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>You have no upcoming appointments.</p>
+    {% endif %}
+
+    <h3>Book an Appointment</h3>
+    <form action="{{ url_for('appointments.book_appointment') }}" method="post">
+        <div class="form-group">
+            <label for="service">Service:</label>
+            <select id="service" name="service" class="form-control">
+                {% for service in services %}
+                    <option value="{{ service.id }}">{{ service.name }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="provider">Provider:</label>
+            <select id="provider" name="provider" class="form-control">
+                {% for provider in providers %}
+                    <option value="{{ provider.id }}">{{ provider.name }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="date_time">Date and Time:</label>
+            <input id="date_time" name="date_time" type="datetime-local" class="form-control">
+        </div>
+        <button type="submit" class="btn btn-primary">Book Appointment</button>
+    </form>
+{% endblock %}
