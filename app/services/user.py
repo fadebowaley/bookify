@@ -1,6 +1,6 @@
 from flask import Blueprint, jsonify, request
 from app.models import User, db
-from app.views import bp
+from app.services import bp
 
 
 
@@ -10,7 +10,7 @@ def get_users():
     return jsonify([user.to_dict() for user in users])
 
 
-@bp.route('/users', methods=['POST'])
+@bp.route('/users/create', methods=['POST'])
 def create_user():
     data = request.get_json()
     user = User(

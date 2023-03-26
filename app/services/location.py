@@ -1,6 +1,6 @@
 from flask import render_template
 from app.models import Location
-from app.views import bp
+from app.services import bp
 
 
 @bp.route('/locations')

@@ -2,7 +2,7 @@ from flask import render_template, request, flash, redirect, url_for, jsonify
 from flask_login import login_required, current_user
 from app import db
 from app.models import Appointment, Provider, Service, User
-from app.views import bp
+from app.services import bp
 
 
 @bp.route('/appointments')
@@ -12,7 +12,7 @@ def appointments():
     return render_template('appointments.html', appointments=appointments)
 
 
-@bp.route('/', methods=['POST'])
+@bp.route('/create-app', methods=['POST'])
 def create_appointment():
     data = request.get_json()
     user_id = data.get('user_id')
@@ -44,7 +44,7 @@ def create_appointment():
     return jsonify({'message': 'Appointment created successfully.', 'data': appointment.to_dict()}), 201
 
 
-@bp.route('/', methods=['GET'])
+@bp.route('/get-app', methods=['GET'])
 def get_appointments():
     user_id = request.args.get('user_id')
     provider_id = request.args.get('provider_id')

@@ -3,7 +3,7 @@ from app.models import Provider, Service, Location
 from flask import Blueprint, jsonify, request
 from flask import render_template, request
 from app.models import Provider, Location
-from app.views import bp
+from app.services import bp
 
 
 @bp.route('/providers')
@@ -18,10 +18,9 @@ def providers():
     return render_template('providers.html', providers=providers, location=location)
 
 
-bp = Blueprint('providers', __name__, url_prefix='/api/providers')
 
 
-@bp.route('', methods=['GET'])
+@bp.route('/list_providers', methods=['GET'])
 def get_providers():
     """
     Returns a list of providers.
@@ -39,7 +38,7 @@ def get_provider(provider_id):
     return jsonify(provider.to_dict())
 
 
-@bp.route('', methods=['POST'])
+@bp.route('/create_provider', methods=['POST'])
 def create_provider():
     """
     Creates a new provider.

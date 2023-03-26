@@ -1,6 +1,6 @@
 from flask import render_template, request
 from app.models import Service, Location
-from app.views import bp
+from app.services import bp
 
 
 @bp.route('/services')

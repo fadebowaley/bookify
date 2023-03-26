@@ -3,16 +3,15 @@ from flask_login import login_user, logout_user, login_required, current_user
 from app import app, db
 from app.forms import LoginForm, RegisterForm
 from app.models import User
-from app.views import bp
+from app.auth import bp
 
 
-@bp.route('/login')
-def login():
-    if current_user.is_authenticated:
-        return redirect(url_for('main.index'))
-    else:
-        return oauth.google.authorize_redirect(url_for('auth.google_login', _external=True))
-    
+# @bp.route('/')
+# def login():
+#     if not current_user.is_authenticated:
+#         return redirect(url_for('main.index'))
+#     else:
+#         return oauth.google.authorize_redirect(url_for('auth.google_login', _external=True))
 
 
 @bp.route('/login', methods=['GET', 'POST'])
@@ -53,5 +52,3 @@ def register():
         flash('Your account has been created! You are now able to log in.', 'success')
         return redirect(url_for('auth.login'))
     return render_template('register.html', title='Register', form=form)
-
-                               
