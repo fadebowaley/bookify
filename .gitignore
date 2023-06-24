@@ -1,0 +1,6 @@
+.env
+bookify/
+config.py
+app/auth/__pycache__/
+app/main/__pycache__/
+app/services/__pycache__/
