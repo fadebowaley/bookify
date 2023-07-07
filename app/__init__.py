@@ -5,11 +5,13 @@ from flask_migrate import Migrate
 from flask_mail import Mail
 from config import Config
 
+
 # Initialize Flask extensions
 db = SQLAlchemy()
 login = LoginManager()
 migrate = Migrate()
 mail = Mail()
+
 
 
 def create_app(config_class=Config):
@@ -23,6 +25,9 @@ def create_app(config_class=Config):
     login.login_view = 'auth.login'
     migrate.init_app(app, db)
     mail.init_app(app)
+    
+
+    
 
 
     from app.main import bp as main_bp
@@ -33,6 +38,9 @@ def create_app(config_class=Config):
 
     from app.auth import bp as auth_bp
     app.register_blueprint(auth_bp)
+
+    from app.errors import bp as errors_bp
+    app.register_blueprint(errors_bp)
 
 
     return app

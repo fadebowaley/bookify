@@ -1,0 +1,163 @@
+﻿{% extends "header.html" %}
+
+{% block body %}
+
+
+      <div class="content-page">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12 mb-4">
+                <div class="py-4 border-bottom">
+                    <div class="float-left"><a href="/new-event" class="badge bg-white back-arrow"><i class="las la-angle-left"></i></a></div>
+                    <div class="form-title text-center">
+                        <h3>Add <b>{{ group_data.name }}</b> Event</h3>
+                    </div>
+                </div>
+            </div>
+         <div class="col-lg-12">
+  <div class="card card-block card-stretch create-workform">
+    <div class="card-body p-5">
+      <div class="row">
+        <div class="col-lg-4 mb-4">
+          <label class="title">Event name *</label>
+          <input type="text" class="form-control" placeholder="Name.." name="eventName">
+        </div>
+        <div class="col-lg-4 mb-4">
+          <label class="title">Date of Event *</label>
+          <input type="date" class="form-control" placeholder="Name.." name="eventDate">
+        </div>
+        <div class="col-lg-4 mb-4">
+          <label class="title">Event Mode *</label>
+          <div class="search-dropdown-select device-search">
+            <select name="location" class="form-control">
+              <option value="in-person-meeting">In-person meeting</option>
+              <option value="phone-call">Phone call</option>
+              <option value="google-meet">Google Meet</option>
+            </select>
+          </div>
+        </div>
+        <div class="col-lg-12 mb-4">
+          <label class="title mb-3">Description/Instructions</label>
+          <textarea id="editar" class="form-control" rows="4" placeholder="Enter description or instructions" name="description"></textarea>
+        </div>
+        <div class="col-lg-12 mb-4">
+          <label class="title">Event link *</label>
+          <input type="text" class="form-control" name="eventLink"  placeholder="https//bookify.com/xxrestdqe/{{group_data.id}}/linkof{{group_data.name}}" read-only>
+        </div>
+        <div class="col-lg-12 mt-4">
+          <div class="d-flex flex-wrap align-items-ceter justify-content-center">
+            <div class="btn btn-primary mr-4">
+              <a href="/dashboard" class="cancel-btn">Cancel</a>
+            </div>
+            <button type="submit" id="submit-create" class="btn btn-outline-success">Submit</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+        </div>
+    </div>
+      </div>
+    </div>
+    <!-- Modal -->
+    <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+          <div class="modal-body">
+            <div class="popup text-left" id="popup">
+                <h4 class="mb-3">Add Action</h4>
+                <div class="content create-workform">
+                    <div class="form-group">
+                      <h6 class="form-label mb-3">Copy Your Link</h6>
+                      <div class="input-group">
+                        <input type="text" class="form-control" readonly="" value="calendly.com/rickoshea1234">
+                        <div class="input-group-append">
+                          <span class="input-group-text" id="basic-addon2"><i class="las la-link"></i></span>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="form-group">
+                      <h6 class="form-label mb-3">Email Your Link</h6>
+                      <div class="input-group">
+                        <input type="text" class="form-control" readonly="" value="calendly.com/rickoshea1234">
+                        <div class="input-group-append">
+                          <span class="input-group-text" id="basic-addon3"><i class="las la-envelope"></i></span>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="form-group">
+                      <h6 class="form-label mb-3">Add to Your Website</h6>
+                      <div class="input-group">
+                        <input type="text" class="form-control" readonly="" value="calendly.com/rickoshea1234">
+                        <div class="input-group-append">
+                          <span class="input-group-text" id="basic-addon4"><i class="las la-code"></i></span>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-lg-12 mt-3">
+                        <div class="d-flex flex-wrap align-items-ceter justify-content-center">
+                            <button type="submit" data-dismiss="modal" class="btn btn-primary mr-4">Cancel</button>
+                            <button type="submit" data-dismiss="modal" class="btn btn-outline-primary">Save</button>
+                        </div>
+                    </div>  
+                </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+<script>
+
+// Get the form element
+const form = document.querySelector('.create-workform');
+const submitBtn = document.querySelector('#submit-create')
+// Add event listener to the form submission
+submitBtn.addEventListener('click', function(event) {
+  event.preventDefault(); // Prevent the default form submission
+
+  // Get form values
+  const eventName = form.querySelector('input[name="eventName"]').value;
+  const selectedElement = document.querySelector('select[name="location"]').value;
+  //const selectedElement = document.querySelector('input[name="location"]:checked').value;
+  const description = form.querySelector('#editar').value;
+  const eventLink = form.querySelector('input[name="eventLink"]').value;
+  const eventDate = form.querySelector('input[name="eventDate"]').value;
+
+
+
+  // Create an object with the form data
+  let data = new FormData()
+    data.append("eventName", eventName)
+    data.append("eventDate", eventDate)
+    data.append("location", selectedElement)
+    data.append("description", description)
+    data.append("eventLink", eventLink)
+
+  // Send the form data to the server
+  fetch('http://localhost:5000/add-event/{{group_data.id}}', {
+    method: 'POST',
+    body: data,
+  })
+  .then(response => response.json())
+  .then(data => {
+    if (data.success) {               
+    // Redirect to "/dashboard"
+    window.location.href = "/dashboard"; 
+
+  } else {
+    //Additonal checks callbacks     
+  }
+  })
+  .catch(error => {
+    // Handle any errors that occurred during the request
+    console.error(error);
+  });
+});
+
+
+</script>
+
+{% endblock %}

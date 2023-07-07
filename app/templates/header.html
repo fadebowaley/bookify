@@ -7,28 +7,24 @@
       <title>Bookify | Booking connects for book Enthusiasts</title>
       
       <!-- Favicon -->
-      <link rel="shortcut icon" href="{{ url_for('static', filename='book/images/favicon.ico') }}">
-
-        
-
+        <link rel="shortcut icon" href="{{ url_for('static', filename='book/images/favicon.ico') }}">
         <link href="{{ url_for('static', filename='book/css/backend.min.css') }}" rel="stylesheet"> 
-
         <link href="{{ url_for('static', filename='book/vendor/@fortawesome/fontawesome-free/css/all.min.css') }}" rel="stylesheet">
         <link href="{{ url_for('static', filename='book/vendor/line-awesome/dist/line-awesome/css/line-awesome.min.css') }}" rel="stylesheet">
         <link href="{{ url_for('static', filename='book/vendor/remixicon/fonts/remixicon.css') }}" rel="stylesheet">
 
-
-<link rel="stylesheet" href="{{ url_for('static', filename='book/vendor/fullcalendar/core/main.css') }}">
-<link rel="stylesheet" href="{{ url_for('static', filename='book/vendor/fullcalendar/daygrid/main.css') }}">
-<link rel="stylesheet" href="{{ url_for('static', filename='book/vendor/fullcalendar/timegrid/main.css') }}">
-<link rel="stylesheet" href="{{ url_for('static', filename='book/vendor/fullcalendar/list/main.css') }}">
+        <!-- fullcalender links-->
+        <link rel="stylesheet" href="{{ url_for('static', filename='book/vendor/fullcalendar/core/main.css') }}">
+        <link rel="stylesheet" href="{{ url_for('static', filename='book/vendor/fullcalendar/daygrid/main.css') }}">
+        <link rel="stylesheet" href="{{ url_for('static', filename='book/vendor/fullcalendar/timegrid/main.css') }}">
+        <link rel="stylesheet" href="{{ url_for('static', filename='book/vendor/fullcalendar/list/main.css') }}">
 
 
 </head>
 
  
   
-      <body class="fixed-top-navbar top-nav  ">
+<body class="fixed-top-navbar top-nav  ">
     <!-- loader Start -->
     <div id="loading">
           <div id="loading-center">
@@ -61,29 +57,28 @@
                                   </div>
                               </div>
                               <ul id="iq-sidebar-toggle" class="iq-menu d-flex">
-                                                      <li class="active">
-                                                          <a href="/" class="">
-                                                              <span>Dashboard</span>
-                                                          </a>
-                                                      </li>
-                                                      <li class=" ">
-                                                          <a href="/schedule" class="">
-                                                              <span>My Schedule</span>
-                                                          </a>
-                                                      </li>                                                  
-                                                      <li class=" ">
-                                                          <a href="/schedule" class="">
-                                                              <span>Faqs</span>
-                                                          </a>
-                                                      </li>                                                  
-                                                      <li class=" ">
-                                                          <a href="/login" class="">
-                                                              <span>Login</span>
-                                                          </a>
-                                                      </li>                                                  
-                              </ul>
-                          </nav>
-                      </div>
+                                    {% if  current_user.is_authenticated %}
+                                <li class="active">
+                                    <a href="/dashboard" class="">
+                                        <span>Dashboard</span>
+                                    </a>
+                                </li>
+                                <li class=" ">
+                                    <a href="/schedule" class="">
+                                        <span>My Schedule</span>
+                                    </a>
+                                </li>    
+                                                                        
+                                <li class=" ">
+                                    <a href="{{ url_for('main.faqs')}}" class="">
+                                        <span>Faqs</span>
+                                    </a>  
+                                   {% endif %}                                  </li>            
+                                </ul>
+                            </nav>
+                        </div>
+
+                        {% if  current_user.is_authenticated %}
                       <nav class="navbar navbar-expand-lg navbar-light p-0">
                           <div class="change-mode">
                               <div class="custom-control custom-switch custom-switch-icon custom-control-indivne">
@@ -173,7 +168,7 @@
                                                       <a href="#" class="iq-sub-card">
                                                           <div class="media align-items-center cust-card p-2">
                                                               <div class="">
-<img class="avatar-40 rounded-small" src="{{ url_for('static', filename='book/images/user/u-1.jpg') }}" alt="03">
+                                                            <img class="avatar-40 rounded-small" src="{{ url_for('static', filename='book/images/user/u-1.jpg') }}" alt="03">
                                                               </div>
                                                               <div class="media-body ml-3">
                                                                   <div class="d-flex align-items-center justify-content-between">
@@ -187,7 +182,7 @@
                                                       <a href="#" class="iq-sub-card">
                                                           <div class="media align-items-center cust-card p-2">
                                                               <div class="">
-<img class="avatar-40 rounded-small" src="{{ url_for('static', filename='book/images/user/u-2.jpg') }}" alt="03">
+                                                            <img class="avatar-40 rounded-small" src="{{ url_for('static', filename='book/images/user/u-2.jpg') }}" alt="03">
                                                               </div>
                                                               <div class="media-body ml-3">
                                                                   <div class="d-flex align-items-center justify-content-between">
@@ -201,7 +196,7 @@
                                                       <a href="#" class="iq-sub-card">
                                                           <div class="media align-items-center cust-card p-2">
                                                               <div class="">
-<img class="avatar-40 rounded-small" src="{{ url_for('static', filename='book/images/user/u-3.jpg') }}" alt="03">
+                                                                <img class="avatar-40 rounded-small" src="{{ url_for('static', filename='book/images/user/u-3.jpg') }}" alt="03">
                                                               </div>
                                                               <div class="media-body ml-3">
                                                                   <div class="d-flex align-items-center justify-content-between">
@@ -222,9 +217,9 @@
                                   </li>
                                   <li class="caption-content">
                                       <a href="#" class="search-toggle dropdown-toggle d-flex align-items-center" id="dropdownMenuButton3" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-<img src="{{ url_for('static', filename='book/images/user/01.jpg') }}" class="avatar-40 img-fluid rounded" alt="user">
+                                    <img src="{{ url_for('static', filename='book/images/user/01.jpg') }}" class="avatar-40 img-fluid rounded" alt="user">
                                           <div class="caption ml-3">
-                                              <h6 class="mb-0 line-height">Rick O'shea<i class="las la-angle-down ml-3"></i></h6>
+                                              <h6 class="mb-0 line-height">{{current_user.first_name }} {{ current_user.last_name}}<i class="las la-angle-down ml-3"></i></h6>
                                           </div>
                                       </a>
                                       <div class="iq-sub-dropdown dropdown-menu user-dropdown" aria-labelledby="dropdownMenuButton3">
@@ -262,14 +257,24 @@
                                                           </div>
                                                       </a>
                                                   </div>
-                                                  <a class="right-ic p-3 border-top btn-block position-relative text-center" href="auth-sign-in.html" role="button">
+                                                  <a class="right-ic p-3 border-top btn-block position-relative text-center" href="/logout" role="button">
                                                        Logout
                                                   </a>
                                               </div>
                                           </div>
                                       </div>
                                   </li>
-                              </ul>
+
+                                   {% else %}
+
+
+                                  <li class=" ">
+                                    <a href="/login" class="btn btn-outline-primary rounded-pill mt-2"><i class="ri-heart-line"></i>Login</a>
+                                    </li> 
+                          
+                                 </ul>
+
+                                 {% endif %}
                           </div>
                       </nav>
                   </div>
@@ -291,7 +296,7 @@
                     </ul>
                 </div>
                 <div class="col-lg-6 text-right">
-                    Copyright 2020 <a href="#">Calendify</a> All Rights Reserved.
+                    Copyright 2020 <a href="#">Bookify</a> All Rights Reserved.
                 </div>
             </div>
         </div>
@@ -304,6 +309,7 @@
     
     <!-- app JavaScript -->
 <script src="{{ url_for('static', filename='book/js/app.js') }}"></script>
+
 
 </body>
 </html>

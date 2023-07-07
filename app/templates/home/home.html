@@ -9,7 +9,9 @@
                 <div class="col-lg-12 mb-3">
                     <div class="d-flex align-items-center justify-content-between">
                         <div class="navbar-breadcrumb">
-                            <h1 class="mb-1">My Calender</h1>
+
+                        <h1 class="mb-1">{{ 'My Bookify' if current_user.is_authenticated else 'Welcome to Bookify' }}</h1>
+
                         </div>
                     </div>
                 </div>
@@ -19,11 +21,17 @@
                             <a id="view-btn" class="nav-link active show" data-toggle="pill" href="#event1" data-extra="#search-with-button" role="tab" aria-selected="true">Event Type</a>
                         </li>
                         <li class="nav-item">
-                            <a id="view-schedule" class="nav-link" data-toggle="pill" href="#event2" data-extra="#view-event" role="tab" aria-selected="false">Schedule Event</a>
+                            <a id="view-schedule" class="nav-link" data-toggle="pill" href="#event2" data-extra="#view-event" role="tab" aria-selected="false">My Event</a>
                         </li>
+                        
+                        
+                        {% if current_user.is_authenticated and current_user.user_role >= 2 %}
+
                         <li class="nav-item">
                             <a id="view-workflow" class="nav-link" data-toggle="pill" href="#event3" data-extra="#view-data" role="tab" aria-selected="false">Workflow</a>
                         </li>
+
+                        {% endif %}
                     </ul>
                 </div>
                 <div class="col-lg-2 col-md-4 tab-extra" id="view-event">
@@ -37,7 +45,7 @@
                             <input type="text" class="text search-input" placeholder="Search...">
                         </form>
                     </div>
-                    <div class="float-sm-right"><a href="page-new-event.html" class="btn btn-primary pr-5 position-relative" style="height: 40px;">Add Event<span class="event-add-btn" style="height: 40px;"><i class="ri-add-line"></i></span></a></div>
+                    <div class="float-sm-right"><a href="/new-event" class="btn btn-primary pr-5 position-relative" style="height: 40px;">Add Event<span class="event-add-btn" style="height: 40px;"><i class="ri-add-line"></i></span></a></div>
                 </div>
             </div>    
         </div>
@@ -46,20 +54,30 @@
         <div class="row">
             <div class="col-lg-12">                
                 <div class="event-content">
+
                     <div id="event1" class="tab-pane fade active show">
-                        <div class="row">                                
+
+
+                        <div class="row"> 
+                        {% if all_event %}
+
+                        {% for event in all_event %}
+
                             <div class="col-lg-4 col-md-6">
                                 <div class="card card-block card-stretch card-height">
-                                    <div class="card-body rounded event-detail event-detail-danger disabled">
+                                 {% set random_color = array_colors|random %}     
+                                    <div class="card-body rounded event-detail event-detail-{{random_color}}">
+                                    <!-- <div class="card-body rounded event-detail event-detail-danger disabled"> -->
+                                        
                                         <div class="d-flex align-items-top justify-content-between">
                                             <div>
-                                                <h4 class="mb-2 mr-4">Reminder of App Project And Design</h4>                                        
-                                                <p class="mb-2 text-danger font-weight-500 text-uppercase"><i class="las la-user pr-2"></i>One On One</p>
-                                                <p class="mb-4 card-description">Calendify always allows you to set the reminder to optimize task management roles and jobs.</p>
+                                                <h4 class="mb-2 mr-4">{{event.event_name}}</h4>                                        
+                                                <p class="mb-2 text-{{random_color}} font-weight-500 text-uppercase"><i class="las la-user pr-2"></i>{{event.event_group.name }}</p>
+                                                <p class="mb-4 card-description">{{event.description }}</p>
                                                 <div class="d-flex align-items-center pt-4">
-                                                    <a href="#" class="btn btn-danger mr-3 px-xl-4">50 Min</a>
-                                                    <a href="#" class="btn btn-outline-danger copy d-none px-xl-4" data-extra-toggle="copy" title="Copy to clipboard" data-toggle="tooltip"><i class="las la-link pr-2"></i>Copy Link</a>
-                                                    <a href="#" class="btn btn-outline-danger turn-on px-xl-4">Turn On</a>
+                                                    <a href="#" class="btn btn-{{random_color}} mr-3 px-xl-4">50 Min</a>
+                                                    <a href="#" class="btn btn-outline-{{random_color}} copy d-none px-xl-4" data-extra-toggle="copy" title="Copy to clipboard" data-toggle="tooltip"><i class="las la-link pr-2"></i>Copy Link</a>
+                                                    <a href="#" class="btn btn-outline-{{random_color}} turn-on px-xl-4">Turn On</a>
                                                 </div>
                                             </div>
                                             <div class="card-header-toolbar mt-1">
@@ -68,11 +86,9 @@
                                                         <i class="ri-more-2-fill"></i>
                                                     </span>
                                                     <div class="dropdown-menu dropdown-menu-right">
-                                                        <a class="dropdown-item" href="#"><i class="ri-pencil-line mr-3"></i>Edit</a>
-                                                        <a class="dropdown-item" href="#"><i class="ri-sticky-note-line mr-3"></i>Add Internal Note</a>
-                                                        <a class="dropdown-item" href="#"><i class="ri-save-line mr-3"></i>Save to Template</a>
-                                                        <a class="dropdown-item" href="#"><i class="ri-code-s-slash-line mr-3"></i>Save to Website</a>
-                                                        <a class="dropdown-item" href="#"><i class="ri-delete-bin-6-line mr-3"></i>Delete</a>  
+                                                    <a class="dropdown-item" href="#"><i class="ri-pencil-line mr-3"></i>Edit</a>
+                                                
+                                                       <a class="dropdown-item" href="#"><i class="ri-delete-bin-6-line mr-3"></i>Delete</a>  
                                                         <div class="dropdown-item border-top mt-2">
                                                             <div class="d-flex align-items-center justify-content-between">
                                                                 <div>On/Off</div>
@@ -89,172 +105,21 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-lg-4 col-md-6">
-                                <div class="card card-block card-stretch card-height">
-                                    <div class="card-body rounded event-detail event-detail-info">
-                                        <div class="d-flex align-items-top justify-content-between">
-                                            <div>
-                                                <h4 class="mb-2 mr-4">Email Signature for Support Team</h4>                                        
-                                                <p class="mb-2 text-info font-weight-500 text-uppercase"><i class="las la-user pr-2"></i>One On One</p>
-                                                <p class="mb-4 card-description">Outsmart back-and-forth in communication by staying alert with your support team follow-ups.</p>
-                                                <div class="d-flex align-items-center pt-4">
-                                                    <a href="#" class="btn btn-info mr-3 px-xl-4">30 Min</a>
-                                                    <a href="#" class="btn btn-outline-info copy px-xl-4" data-extra-toggle="copy" title="Copy to clipboard" data-toggle="tooltip"><i class="las la-link pr-2"></i>Copy Link</a>
-                                                    <a href="#" class="btn btn-outline-info d-none turn-on px-xl-4">Turn On</a>
-                                                </div>
-                                            </div>
-                                            <div class="card-header-toolbar mt-1">
-                                                <div class="dropdown">
-                                                    <span class="dropdown-toggle" id="dropdownMenuButton02" data-toggle="dropdown">
-                                                        <i class="ri-more-2-fill"></i>
-                                                    </span>
-                                                    <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton02">
-                                                        <a class="dropdown-item" href="#"><i class="ri-pencil-line mr-3"></i>Edit</a>
-                                                        <a class="dropdown-item" href="#"><i class="ri-sticky-note-line mr-3"></i>Add Internal Note</a>
-                                                        <a class="dropdown-item" href="#"><i class="ri-save-line mr-3"></i>Save to Template</a>
-                                                        <a class="dropdown-item" href="#"><i class="ri-code-s-slash-line mr-3"></i>Save to Website</a>
-                                                        <a class="dropdown-item" href="#"><i class="ri-delete-bin-6-line mr-3"></i>Delete</a>  
-                                                        <div class="dropdown-item border-top mt-2">
-                                                            <div class="d-flex align-items-center justify-content-between">
-                                                                <div>On/Off</div>
-                                                                <div class="custom-control custom-switch p-0">
-                                                                    <input type="checkbox" class="custom-control-input card-change" id="customSwitch5">
-                                                                    <label class="custom-control-label" for="customSwitch5"></label>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-lg-4 col-md-6">
-                                <div class="card card-block card-stretch card-height">
-                                    <div class="card-body rounded event-detail event-detail-success">
-                                        <div class="d-flex align-items-top justify-content-between">
-                                            <div>
-                                                <h4 class="mb-2 mr-4">Plugins & Team Review Meeting</h4>                                        
-                                                <p class="mb-2 text-success font-weight-500 text-uppercase"><i class="las la-user-friends pr-2"></i>Group</p>
-                                                <p class="mb-4 card-description">Calendify lets you to simplify and prioritize your calendar and your team’s calendar with review. </p>
-                                                <div class="d-flex align-items-center pt-4">
-                                                    <a href="#" class="btn btn-success mr-3 px-xl-4">35 Min</a>
-                                                    <a href="#" class="btn btn-outline-success copy px-xl-4" data-extra-toggle="copy" title="Copy to clipboard" data-toggle="tooltip"><i class="las la-link pr-2"></i>Copy Link</a>
-                                                    <a href="#" class="btn btn-outline-success d-none turn-on px-xl-4">Turn On</a>
-                                                </div>
-                                            </div>
-                                            <div class="card-header-toolbar mt-1">
-                                                <div class="dropdown">
-                                                    <span class="dropdown-toggle" id="dropdownMenuButton03" data-toggle="dropdown">
-                                                        <i class="ri-more-2-fill"></i>
-                                                    </span>
-                                                    <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton03">
-                                                        <a class="dropdown-item" href="#"><i class="ri-pencil-line mr-3"></i>Edit</a>
-                                                        <a class="dropdown-item" href="#"><i class="ri-sticky-note-line mr-3"></i>Add Internal Note</a>
-                                                        <a class="dropdown-item" href="#"><i class="ri-save-line mr-3"></i>Save to Template</a>
-                                                        <a class="dropdown-item" href="#"><i class="ri-code-s-slash-line mr-3"></i>Save to Website</a>
-                                                        <a class="dropdown-item" href="#"><i class="ri-delete-bin-6-line mr-3"></i>Delete</a> 
-                                                        <div class="dropdown-item border-top mt-2">
-                                                            <div class="d-flex align-items-center justify-content-between">
-                                                                <div>On/Off</div>
-                                                                <div class="custom-control custom-switch p-0">
-                                                                    <input type="checkbox" class="custom-control-input card-change" id="customSwitch1">
-                                                                    <label class="custom-control-label" for="customSwitch1"></label>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>                                
-                            <div class="col-lg-4 col-md-6">
-                                <div class="card card-block card-stretch card-height">
-                                    <div class="card-body rounded event-detail event-detail-primary">
-                                        <div class="d-flex align-items-top justify-content-between">
-                                            <div>
-                                                <h4 class="mb-2 mr-4">New Year Iqonic Design Campaigns</h4>                                        
-                                                <p class="mb-2 text-primary font-weight-500 text-uppercase"><i class="las la-user-friends pr-2"></i>Group</p>
-                                                <p class="mb-4 card-description">Quickly schedule and set the event type to manage all your marketing and management campaigns. </p>
-                                                <div class="d-flex align-items-center pt-4">
-                                                    <a href="#" class="btn btn-primary mr-3 px-xl-4">15 Min</a>
-                                                    <a href="#" class="btn btn-outline-primary copy px-xl-4" data-extra-toggle="copy" title="Copy to clipboard" data-toggle="tooltip"><i class="las la-link pr-2"></i>Copy Link</a>
-                                                    <a href="#" class="btn btn-outline-primary d-none turn-on px-xl-4">Turn On</a>
-                                                </div>
-                                            </div>
-                                            <div class="card-header-toolbar mt-1">
-                                                <div class="dropdown">
-                                                    <span class="dropdown-toggle" id="dropdownMenuButton4" data-toggle="dropdown">
-                                                        <i class="ri-more-2-fill"></i>
-                                                    </span>
-                                                    <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton4">
-                                                        <a class="dropdown-item" href="#"><i class="ri-pencil-line mr-3"></i>Edit</a>
-                                                        <a class="dropdown-item" href="#"><i class="ri-sticky-note-line mr-3"></i>Add Internal Note</a>
-                                                        <a class="dropdown-item" href="#"><i class="ri-save-line mr-3"></i>Save to Template</a>
-                                                        <a class="dropdown-item" href="#"><i class="ri-code-s-slash-line mr-3"></i>Save to Website</a>
-                                                        <a class="dropdown-item" href="#"><i class="ri-delete-bin-6-line mr-3"></i>Delete</a> 
-                                                        <div class="dropdown-item border-top mt-2">
-                                                            <div class="d-flex align-items-center justify-content-between">
-                                                                <div>On/Off</div>
-                                                                <div class="custom-control custom-switch p-0">
-                                                                    <input type="checkbox" class="custom-control-input card-change" id="customSwitch4">
-                                                                    <label class="custom-control-label" for="customSwitch4"></label>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-lg-4 col-md-6">
-                                <div class="card card-block card-stretch card-height">
-                                    <div class="card-body rounded event-detail event-detail-warning">
-                                        <div class="d-flex align-items-top justify-content-between">
-                                            <div>
-                                                <h4 class="mb-2 mr-4">Project And Task Management Roles</h4>                                        
-                                                <p class="mb-2 text-warning font-weight-500 text-uppercase"><i class="las la-user-friends pr-2"></i>Group</p>
-                                                <p class="mb-4 card-description">Set reminders for your team regarding their project and task completion so that they are not overlooked. </p>
-                                                <div class="d-flex align-items-center pt-4">
-                                                    <a href="#" class="btn btn-warning mr-3 px-xl-4">25 Min</a>
-                                                    <a href="#" class="btn btn-outline-warning copy px-xl-4" data-extra-toggle="copy" title="Copy to clipboard" data-toggle="tooltip"><i class="las la-link pr-2"></i>Copy Link</a>
-                                                    <a href="#" class="btn btn-outline-warning d-none turn-on px-xl-4">Turn On</a>
-                                                </div>
-                                            </div>
-                                            <div class="card-header-toolbar mt-1">
-                                                <div class="dropdown">
-                                                    <span class="dropdown-toggle" id="dropdownMenuButton5" data-toggle="dropdown">
-                                                        <i class="ri-more-2-fill"></i>
-                                                    </span>
-                                                    <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton5">
-                                                        <a class="dropdown-item" href="#"><i class="ri-pencil-line mr-3"></i>Edit</a>
-                                                        <a class="dropdown-item" href="#"><i class="ri-sticky-note-line mr-3"></i>Add Internal Note</a>
-                                                        <a class="dropdown-item" href="#"><i class="ri-save-line mr-3"></i>Save to Template</a>
-                                                        <a class="dropdown-item" href="#"><i class="ri-code-s-slash-line mr-3"></i>Save to Website</a>
-                                                        <a class="dropdown-item" href="#"><i class="ri-delete-bin-6-line mr-3"></i>Delete</a>  
-                                                        <div class="dropdown-item border-top mt-2">
-                                                            <div class="d-flex align-items-center justify-content-between">
-                                                                <div>On/Off</div>
-                                                                <div class="custom-control custom-switch p-0">
-                                                                    <input type="checkbox" class="custom-control-input card-change" id="customSwitch3">
-                                                                    <label class="custom-control-label" for="customSwitch3"></label>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
+
+                            {% endfor %}
+
+                        
+                            {% else %}
+
+                            <p> No event data yet</p>
+                            {% endif %}
+
                         </div>
                     </div>
+
+
+                    <!-- Upcoming events Tab-->
+
                     <div id="event2" class="tab-pane fade">
                         <div class="d-flex flex-wrap align-items-center justify-content-between mb-4">
                             <ul class="d-flex nav nav-pills text-center schedule-tab" id="schedule-pills-tab" role="tablist">                                
@@ -342,7 +207,7 @@
                                                         <div class="date mr-3"><h4 class="text-info">15 Dec</h4></div>
                                                         <div class="border-left pl-3"> 
                                                             <div class="media align-items-top">
-                                                                <h5 class="mb-3">Calendify Inner Pages</h5>
+                                                                <h5 class="mb-3">Bookify Inner Pages</h5>
                                                                 <div class="badge badge-color ml-3">Upcoming</div>
                                                             </div>
                                                             <div class="media align-items-center">
@@ -392,7 +257,7 @@
                                                         <div class="date mr-3"><h4 class="text-success">29 Dec</h4></div>
                                                         <div class="border-left pl-3">  
                                                             <div class="media align-items-top">
-                                                                <h5 class="mb-3">Calendify Pre-Launch Campaign</h5>
+                                                                <h5 class="mb-3">Bookify Pre-Launch Campaign</h5>
                                                                 <div class="badge badge-color ml-3">Pending</div>
                                                             </div>
                                                             <div class="media align-items-center">
@@ -490,8 +355,8 @@
                                                         <a class="badge" data-toggle="tooltip" data-placement="top" title="" data-original-title="Delete" href="#"><i class="ri-delete-bin-line"></i></a>
                                                     </div>
                                                 </div>
-                                                <h4 class="my-2">Calendify Homepage Final Edits</h4>   
-                                                <p class="mb-4 card-description">Enhance Calendify with beautiful user interface and UI changes to ensure high conversion rate.</p>
+                                                <h4 class="my-2">Bookify Homepage Final Edits</h4>   
+                                                <p class="mb-4 card-description">Enhance Bookify with beautiful user interface and UI changes to ensure high conversion rate.</p>
                                                 <p class="mb-2 text-info"><i class="las la-clock mr-3"></i>08 Pm - 09 Pm</p>
                                                 <p class="mb-2 text-info"><i class="las la-map-marker mr-3"></i>1 Circle Street Leominster, Ma 01453</p>
                                             </div>
@@ -510,7 +375,7 @@
                                                         <a class="badge" data-toggle="tooltip" data-placement="top" title="" data-original-title="Delete" href="#"><i class="ri-delete-bin-line"></i></a>
                                                     </div>
                                                 </div>
-                                                <h4 class="my-2">Calendify Promotional Campaign</h4>   
+                                                <h4 class="my-2">Bookify Promotional Campaign</h4>   
                                                 <p class="mb-4 card-description">Schedule meetings and promotional campaigns for your internal team by assigning task and roles.</p>
                                                 <p class="mb-2 text-danger"><i class="las la-clock mr-3"></i>09:45 Pm - 10 Pm</p>
                                                 <p class="mb-2 text-danger"><i class="las la-map-marker mr-3"></i>1 Circle Street Leominster, Ma 01453</p>
@@ -531,7 +396,7 @@
                                                     </div>
                                                 </div>
                                                 <h4 class="my-2">Exploring Automatic Timezone Detection</h4>   
-                                                <p class="mb-4 card-description">An internal team meeting to brief on a feature where the meeting will be seen in viewer’s time zone with automatic timezone detection in Calendify. </p>
+                                                <p class="mb-4 card-description">An internal team meeting to brief on a feature where the meeting will be seen in viewer’s time zone with automatic timezone detection in Bookify. </p>
                                                 <p class="mb-2 text-success"><i class="las la-clock mr-3"></i>10 Pm - 10:30 Pm</p>
                                                 <p class="mb-2 text-success"><i class="las la-map-marker mr-3"></i>1 Circle Street Leominster, Ma 01453</p>
                                             </div>
@@ -620,6 +485,13 @@
                             </div>
                         </div>
                     </div>
+
+                <!--/ Upcoming events Tab-->
+
+
+
+              <!--workflows -->
+
                     <div id="event3" class="tab-pane fade">
                         <div class="d-flex flex-wrap align-items-center justify-content-between mb-4">
                             <div>                                
@@ -759,6 +631,8 @@
                             </div>
                         </div>
                     </div>
+              <!--/workflows -->
+
                 </div>
             </div>
         </div>
