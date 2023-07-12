@@ -5,10 +5,6 @@ Bookify is a frontend web application that revolutionizes the process of booking
 ## video Introduction Link
 
 
-[![Video Title](https://img.youtube.com/vi/XLx-by4Z8JU&t=3s/0.jpg)](https://www.youtube.com/watch?v=XLx-by4Z8JU&t=3s)
-
-
-
 ![Image Description](./examples/bookify_landing-page.png)
 
 ![Image Description](./examples/bookify-calender.png)
