@@ -3,7 +3,10 @@
 Bookify is a frontend web application that revolutionizes the process of booking book dates. With Bookify, book enthusiasts, clubs, and communities can effortlessly organize book-related events or discussions. This user-friendly application simplifies the entire booking experience by providing a seamless interface for users to browse available dates, select their preferred date, and make bookings with ease. Whether you're planning a literary event or a book club gathering, Bookify streamlines the process, allowing you to focus on what truly matters – bringing people together through the love of books.
 
 ## video Introduction Link
-https://www.youtube.com/watch?v=XLx-by4Z8JU&t=3s
+
+
+[![Video Title](https://img.youtube.com/vi/XLx-by4Z8JU&t=3s/0.jpg)](https://www.youtube.com/watch?v=XLx-by4Z8JU&t=3s)
+
 
 
 ![Image Description](./examples/bookify_landing-page.png)
